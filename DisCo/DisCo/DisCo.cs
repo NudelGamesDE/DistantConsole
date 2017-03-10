@@ -79,5 +79,6 @@ namespace DistantConsole
             RealGlobalDisco = aDisCo;
         }
 
+        public static string Version { get { return DisCoBase.Version; } }
     }
 }
