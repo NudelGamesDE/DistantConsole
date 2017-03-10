@@ -4,7 +4,7 @@ namespace DistantConsole
 {
     public abstract class DisCoBase : IDisCo
     {
-        public const string Version = "0.0.2";
+        public const string Version = "0.0.3";
 
         public DisCoBase()
         {
@@ -25,8 +25,12 @@ namespace DistantConsole
             WriteLogFile(_message);
             if (EventHandlerEnabled && EventHandlerEnabledOnce)
             {
-                if (ConvertedMessageHandler != null) ConvertedMessageHandler(_message);
-                if (FormatMessageHandler != null) FormatMessageHandler(aFormat, aParas);
+                try
+                {
+                    if (ConvertedMessageHandler != null) ConvertedMessageHandler(_message);
+                    if (FormatMessageHandler != null) FormatMessageHandler(aFormat, aParas);
+                }
+                catch (Exception) { }
             }
             var ret = true;
             if (DistantEnabled && DistantEnabledOnce)
@@ -43,8 +47,12 @@ namespace DistantConsole
             WriteLogFile(_message);
             if (EventHandlerEnabled && EventHandlerEnabledOnce)
             {
-                if (ConvertedMessageHandler != null) ConvertedMessageHandler(_message);
-                if (ExceptionMessageHandler != null) ExceptionMessageHandler(aLine);
+                try
+                {
+                    if (ConvertedMessageHandler != null) ConvertedMessageHandler(_message);
+                    if (ExceptionMessageHandler != null) ExceptionMessageHandler(aLine);
+                }
+                catch (Exception) { }
             }
             var ret = true;
             if (DistantEnabled && DistantEnabledOnce)
@@ -60,8 +68,12 @@ namespace DistantConsole
             WriteLogFile(_message);
             if (EventHandlerEnabled && EventHandlerEnabledOnce)
             {
-                if (ConvertedMessageHandler != null) ConvertedMessageHandler(_message);
-                if (ObjectMessageHandler != null) ObjectMessageHandler(aLine);
+                try
+                {
+                    if (ConvertedMessageHandler != null) ConvertedMessageHandler(_message);
+                    if (ObjectMessageHandler != null) ObjectMessageHandler(aLine);
+                }
+                catch (Exception) { }
             }
             var ret = true;
             if (DistantEnabled && DistantEnabledOnce)
@@ -143,12 +155,16 @@ namespace DistantConsole
         private bool NotFirstLogWrite;
         private void WriteLogFile(string aMessage)
         {
-            if (!LogFileEnabled || !LogFileEnabledOnce) return;
-            using (var file = new System.IO.StreamWriter(LogPath, NotFirstLogWrite))
+            try
             {
-                file.WriteLine(LogFileTimeStamp ? MessageTimeStampConverter(aMessage) : aMessage);
+                if (!LogFileEnabled || !LogFileEnabledOnce) return;
+                using (var file = new System.IO.StreamWriter(LogPath, NotFirstLogWrite))
+                {
+                    file.WriteLine(LogFileTimeStamp ? MessageTimeStampConverter(aMessage) : aMessage);
+                }
+                NotFirstLogWrite = true;
             }
-            NotFirstLogWrite = true;
+            catch (Exception) { }
         }
 
         public static string getTimeStamp()

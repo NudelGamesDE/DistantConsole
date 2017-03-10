@@ -14,7 +14,7 @@ namespace DisCoTester
         {
             DisCo.UseInterface(new DisCoUDPBroadcast("test.txt", 1850));
 
-            DisCo.WriteLine("test from tester");
+            DisCo.WriteLine("test from tester {0}", 1);
 
             Thread.Sleep(2500);
         }

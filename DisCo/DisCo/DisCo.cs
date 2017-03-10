@@ -36,7 +36,7 @@ namespace DistantConsole
         public static IDisCo GetGlobal() { return GlobalDisCo_; }
         private static IDisCo RealGlobalDisco;
 
-        public static bool WriteLine(string aFormat, params object[] aParas) { return GlobalDisCo_.WriteLine(aFormat); }
+        public static bool WriteLine(string aFormat, params object[] aParas) { return GlobalDisCo_.WriteLine(aFormat, aParas); }
         public static bool WriteLine(Exception aLine) { return GlobalDisCo_.WriteLine(aLine); }
         public static bool WriteLine(object aLine) { return GlobalDisCo_.WriteLine(aLine); }
 
