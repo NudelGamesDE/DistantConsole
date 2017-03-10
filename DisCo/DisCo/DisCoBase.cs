@@ -4,14 +4,26 @@ namespace DistantConsole
 {
     public abstract class DisCoBase : IDisCo
     {
-        public const string Version = "0.0.1";
+        public const string Version = "0.0.2";
+
+        public DisCoBase()
+        {
+            ConsoleEnabled = true;
+            ConsoleEnabledOnce = true;
+            LogFileEnabled = true;
+            LogFileEnabledOnce = true;
+            EventHandlerEnabled = true;
+            EventHandlerEnabledOnce = true;
+            DistantEnabled = true;
+            DistantEnabledOnce = true;
+        }
 
         public bool WriteLine(string aFormat, params object[] aParas)
         {
             var _message = String.Format(aFormat, aParas);
             WriteConsole(_message);
             WriteLogFile(_message);
-            if (DistantEnabled && DistantEnabledOnce)
+            if (EventHandlerEnabled && EventHandlerEnabledOnce)
             {
                 if (ConvertedMessageHandler != null) ConvertedMessageHandler(_message);
                 if (FormatMessageHandler != null) FormatMessageHandler(aFormat, aParas);
@@ -29,7 +41,7 @@ namespace DistantConsole
             var _message = aLine.ToString();
             WriteConsole(_message);
             WriteLogFile(_message);
-            if (DistantEnabled && DistantEnabledOnce)
+            if (EventHandlerEnabled && EventHandlerEnabledOnce)
             {
                 if (ConvertedMessageHandler != null) ConvertedMessageHandler(_message);
                 if (ExceptionMessageHandler != null) ExceptionMessageHandler(aLine);
@@ -46,7 +58,7 @@ namespace DistantConsole
             var _message = aLine.ToString();
             WriteConsole(_message);
             WriteLogFile(_message);
-            if (DistantEnabled && DistantEnabledOnce)
+            if (EventHandlerEnabled && EventHandlerEnabledOnce)
             {
                 if (ConvertedMessageHandler != null) ConvertedMessageHandler(_message);
                 if (ObjectMessageHandler != null) ObjectMessageHandler(aLine);

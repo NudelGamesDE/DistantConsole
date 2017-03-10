@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisCo", "DisCo\DisCo.csproj", "{D3C04C27-11D3-461B-B681-61995FE88889}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisCoTester", "DisCoTester\DisCoTester.csproj", "{465B2A60-6693-44D1-A325-A192E59566AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D3C04C27-11D3-461B-B681-61995FE88889}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3C04C27-11D3-461B-B681-61995FE88889}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3C04C27-11D3-461B-B681-61995FE88889}.Release|Any CPU.Build.0 = Release|Any CPU
+		{465B2A60-6693-44D1-A325-A192E59566AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{465B2A60-6693-44D1-A325-A192E59566AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{465B2A60-6693-44D1-A325-A192E59566AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{465B2A60-6693-44D1-A325-A192E59566AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
