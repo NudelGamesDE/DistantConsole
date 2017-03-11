@@ -62,7 +62,9 @@ namespace DistantConsole
             {
                 case EDisCoConfigDisCoType.TCPClient: break;
                 case EDisCoConfigDisCoType.TCPServer: break;
-                case EDisCoConfigDisCoType.UDP: break;
+                case EDisCoConfigDisCoType.UDP:
+                    UseInterface(new DisCoUDP(aConfig.GetLogPath(), aConfig.GetTargetIP(), aConfig.GetTargetPort()));
+                    break;
                 case EDisCoConfigDisCoType.UDPBroadcast:
                     UseInterface(new DisCoUDPBroadcast(aConfig.GetLogPath(), aConfig.GetTargetPort()));
                     break;

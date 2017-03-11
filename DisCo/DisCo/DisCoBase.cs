@@ -4,7 +4,7 @@ namespace DistantConsole
 {
     public abstract class DisCoBase : IDisCo
     {
-        public const string Version = "0.0.3";
+        public const string Version = "0.0.4";
 
         public DisCoBase()
         {
@@ -111,6 +111,12 @@ namespace DistantConsole
         public event Action<string, object[]> FormatMessageHandler;
         public event Action<object> ObjectMessageHandler;
         public event Action<string> MessageFromDistantHandler;
+
+        protected void GotDistantMessage(string aMessage)
+        {
+            var _handler = MessageFromDistantHandler;
+            if (_handler != null) _handler(aMessage);
+        }
 
         public IDisCo LimitDestinationsTo(EDisCoDestinations aWhiteList)
         {
