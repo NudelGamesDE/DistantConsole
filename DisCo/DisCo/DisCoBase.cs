@@ -4,7 +4,8 @@ namespace DistantConsole
 {
     public abstract class DisCoBase : IDisCo
     {
-        public const string Version = "0.0.4";
+        public const string Version = "1.0.0";
+        public static string SimpleTCPVersion = SimpleTCP.SimpleConnection.Version;
 
         public DisCoBase()
         {
@@ -111,11 +112,17 @@ namespace DistantConsole
         public event Action<string, object[]> FormatMessageHandler;
         public event Action<object> ObjectMessageHandler;
         public event Action<string> MessageFromDistantHandler;
+        public event Action<string, EDisCoColors> MessageWithColorFromDistantHandler;
 
         protected void GotDistantMessage(string aMessage)
         {
+            if (aMessage == null || aMessage.Length == 0) return;
+            var _color = DisCo.CharToEDisCoColor(aMessage[0]);
+            var _message = aMessage.Substring(1);
             var _handler = MessageFromDistantHandler;
-            if (_handler != null) _handler(aMessage);
+            if (_handler != null) _handler(_message);
+            var _handlerWithColor = MessageWithColorFromDistantHandler;
+            if (_handlerWithColor != null) _handlerWithColor(_message, _color);
         }
 
         public IDisCo LimitDestinationsTo(EDisCoDestinations aWhiteList)

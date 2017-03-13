@@ -38,6 +38,10 @@ namespace DisCoTester
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Version {0}", DisCoBase.Version);
+            Console.WriteLine("SimpleTCP Version {0}", DisCoBase.SimpleTCPVersion);
+            Console.WriteLine("");
+
             Console.WriteLine("1: TCP Client");
             Console.WriteLine("2: TCP Server");
             Console.WriteLine("3: UDP");
@@ -83,8 +87,12 @@ namespace DisCoTester
             {
                 Console.WriteLine(aMessage);
             };
+            //DisCo.MessageWithColorFromDistantHandler += (aMessage, aColor) =>
+            //{
+            //    Console.WriteLine(aColor.ToString() + " " + aMessage);
+            //};
 
-            while(true)
+            while (true)
             {
                 DisCo.WriteLine(Console.ReadLine());
             }

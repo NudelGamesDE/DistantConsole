@@ -4,7 +4,6 @@ namespace DistantConsole
 {
     public static class DisCo
     {
-        private static float test;
         private class GlobalDisCo : IDisCo
         {
             public bool WriteLine(string aFormat, params object[] aParas) { var _temp = RealGlobalDisco; if (_temp != null) return _temp.WriteLine(aFormat, aParas); return false; }
@@ -21,7 +20,9 @@ namespace DistantConsole
             public void ObjectMessage(object aMessage) { var _handler = ObjectMessageHandler; if (_handler != null) _handler(aMessage); }
 
             public event Action<string> MessageFromDistantHandler;
-            public void MessageFromDistant(string aMessage) { var _handler = MessageFromDistantHandler; if (_handler != null) _handler(aMessage); }
+            internal void MessageFromDistant(string aMessage) { var _handler = MessageFromDistantHandler; if (_handler != null) _handler(aMessage); }
+            public event Action<string, EDisCoColors> MessageWithColorFromDistantHandler;
+            internal void MessageWithColorFromDistant(string aMessage, EDisCoColors aColor) { var _handler = MessageWithColorFromDistantHandler; if (_handler != null) _handler(aMessage, aColor); }
 
             public IDisCo LimitDestinationsTo(EDisCoDestinations aWhiteList) { var _temp = RealGlobalDisco; if (_temp != null) return _temp.LimitDestinationsTo(aWhiteList); return this; }
             public IDisCo Color(EDisCoColors aColor) { var _temp = RealGlobalDisco; if (_temp != null) return _temp.Color(aColor); return this; }
@@ -46,6 +47,7 @@ namespace DistantConsole
         public static event Action<object> ObjectMessageHandler { add { GlobalDisCo_.ObjectMessageHandler += value; } remove { GlobalDisCo_.ObjectMessageHandler -= value; } }
 
         public static event Action<string> MessageFromDistantHandler { add { GlobalDisCo_.MessageFromDistantHandler += value; } remove { GlobalDisCo_.MessageFromDistantHandler -= value; } }
+        public static event Action<string, EDisCoColors> MessageWithColorFromDistantHandler { add { GlobalDisCo_.MessageWithColorFromDistantHandler += value; } remove { GlobalDisCo_.MessageWithColorFromDistantHandler -= value; } }
 
         public static IDisCo LimitDestinationsTo(EDisCoDestinations aWhiteList) { return GlobalDisCo_.LimitDestinationsTo(aWhiteList); }
         public static IDisCo Color(EDisCoColors aColor) { return GlobalDisCo_.Color(aColor); }
@@ -56,18 +58,30 @@ namespace DistantConsole
         public static bool ConsoleEnabled { get { return GlobalDisCo_.ConsoleEnabled; } set { GlobalDisCo_.ConsoleEnabled = value; } }
         public static bool EventHandlerEnabled { get { return GlobalDisCo_.EventHandlerEnabled; } set { GlobalDisCo_.EventHandlerEnabled = value; } }
 
-        public static void LoadFromConfig(IDisCoConfig aConfig)
+        public static void LoadFromConfig(IDisCoConfig aConfig, bool UDPCanReceive = true)
         {
             switch (aConfig.GetDisCoType())
             {
-                case EDisCoConfigDisCoType.TCPClient: break;
-                case EDisCoConfigDisCoType.TCPServer: break;
+                case EDisCoConfigDisCoType.TCPClient:
+                    UseInterface(new DisCoClient(aConfig.GetLogPath(), aConfig.GetTargetIP(), aConfig.GetTargetPort()));
+                    break;
+                case EDisCoConfigDisCoType.TCPServer:
+                    UseInterface(new DisCoServer(aConfig.GetLogPath(), aConfig.GetTargetPort()));
+                    break;
                 case EDisCoConfigDisCoType.UDP:
-                    UseInterface(new DisCoUDP(aConfig.GetLogPath(), aConfig.GetTargetIP(), aConfig.GetTargetPort()));
-                    break;
+                    {
+                        var _DisCo = new DisCoUDP(aConfig.GetLogPath(), aConfig.GetTargetIP(), aConfig.GetTargetPort());
+                        if (!UDPCanReceive) _DisCo.StopReceiving();
+                        UseInterface(_DisCo);
+                        break;
+                    }
                 case EDisCoConfigDisCoType.UDPBroadcast:
-                    UseInterface(new DisCoUDPBroadcast(aConfig.GetLogPath(), aConfig.GetTargetPort()));
-                    break;
+                    {
+                        var _DisCo = new DisCoUDPBroadcast(aConfig.GetLogPath(), aConfig.GetTargetPort());
+                        if (!UDPCanReceive) _DisCo.StopReceiving();
+                        UseInterface(_DisCo);
+                        break;
+                    }
             }
         }
 
@@ -78,9 +92,19 @@ namespace DistantConsole
             aDisCo.FormatMessageHandler += GlobalDisCo_.FormatMessage;
             aDisCo.ObjectMessageHandler += GlobalDisCo_.ObjectMessage;
             aDisCo.MessageFromDistantHandler += GlobalDisCo_.MessageFromDistant;
+            aDisCo.MessageWithColorFromDistantHandler += GlobalDisCo_.MessageWithColorFromDistant;
             RealGlobalDisco = aDisCo;
         }
 
         public static string Version { get { return DisCoBase.Version; } }
+
+        public static EDisCoColors CharToEDisCoColor(char aCharacter)
+        {
+            return (EDisCoColors)aCharacter;
+        }
+        public static char EDisCoColorToChar(EDisCoColors aColor)
+        {
+            return (char)aColor;
+        }
     }
 }

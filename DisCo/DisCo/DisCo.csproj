@@ -44,10 +44,12 @@
   <ItemGroup>
     <Compile Include="DisCo.cs" />
     <Compile Include="DisCoBase.cs" />
+    <Compile Include="DisCoClient.cs" />
+    <Compile Include="DisCoServer.cs" />
     <Compile Include="InterfaceAndEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UDP.cs" />
-    <Compile Include="UDPBroadcast.cs" />
+    <Compile Include="DisCoUDP.cs" />
+    <Compile Include="DisCoUDPBroadcast.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

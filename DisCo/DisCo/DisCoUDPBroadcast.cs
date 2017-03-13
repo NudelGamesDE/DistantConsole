@@ -1,7 +1,4 @@
-﻿using SimpleTCP;
-using System.Linq;
-
-namespace DistantConsole
+﻿namespace DistantConsole
 {
     public class DisCoUDPBroadcast : DisCoUDP
     {

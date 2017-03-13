@@ -21,6 +21,7 @@ namespace DistantConsole
         Invalid,
         Unimportant,
         VeryImportant,
+        Command,
         MiscColor0
     }
 
@@ -36,6 +37,7 @@ namespace DistantConsole
         event Action<object> ObjectMessageHandler;
 
         event Action<string> MessageFromDistantHandler;
+        event Action<string, EDisCoColors> MessageWithColorFromDistantHandler;
 
         IDisCo LimitDestinationsTo(EDisCoDestinations aWhiteList);
         IDisCo Color(EDisCoColors aColor);
